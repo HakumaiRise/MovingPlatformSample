@@ -38,14 +38,14 @@ public class Platforming : MonoBehaviour
         if (plat != null)
         {
             if (pastSca.x <= 0 || pastSca.y <= 0 || pastSca.z <= 0 || nowSca.x <= 0 || nowSca.y <= 0 || nowSca.z <= 0)
-            {   //plat‚ÌScale‚ª0ˆÈ‰º‚Ìê‡‚ÍMoveWith‚µ‚È‚¢
+            {   //platã®ScaleãŒ0ä»¥ä¸‹ã®å ´åˆã¯MoveWithã—ãªã„
                 plat = null;
                 center = null;
                 return;
             }
 
             if (center != null)
-            {   //Center‚ ‚è
+            {   //Centerã‚ã‚Š
                 nowRot = plat.transform.rotation;
                 nowPos = plat.transform.position;
                 nowSca = plat.transform.lossyScale;
@@ -60,7 +60,7 @@ public class Platforming : MonoBehaviour
 
             }
             else
-            {   //Center‚È‚µ
+            {   //Centerãªã—
                 nowRot = plat.transform.rotation;
                 nowPos = plat.transform.position;
                 nowSca = plat.transform.lossyScale;
@@ -75,7 +75,7 @@ public class Platforming : MonoBehaviour
 
         GroundCheck();
 
-        //ƒvƒŒƒCƒ„[‚ğ‚’¼‚É–ß‚·
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’å‚ç›´ã«æˆ»ã™
         transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0);
     }
     public void MoveWith()
@@ -97,10 +97,10 @@ public class Platforming : MonoBehaviour
         Vector3 playerDis = Quaternion.Inverse(qua) * (transform.position - plat.transform.position);
         deltaSca = qua * new Vector3(playerDis.x * deltaSca.x, playerDis.y * deltaSca.y, playerDis.z * deltaSca.z);
 
-        //ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ÉMove‚ÆScale‚ÌŒvZŒ‹‰ÊiˆÚ“®—Êj‚ğ‰Á‚¦‚ÄAˆÚ“®
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã«Moveã¨Scaleã®è¨ˆç®—çµæœï¼ˆç§»å‹•é‡ï¼‰ã‚’åŠ ãˆã¦ã€ç§»å‹•
         transform.position += deltaMove + deltaSca;
 
-        //Y²ã•ûŒü‚Ö‚Í°‚É‰Ÿ‚³‚ê‚é—Í‚Åã‚ª‚é‚Ì‚ÅA‚±‚±‚Å‚ÍˆÚ“®‚³‚¹‚È‚¢
+        //Yè»¸ä¸Šæ–¹å‘ã¸ã¯åºŠã«æŠ¼ã•ã‚Œã‚‹åŠ›ã§ä¸ŠãŒã‚‹ã®ã§ã€ã“ã“ã§ã¯ç§»å‹•ã•ã›ãªã„
         if (transform.position.y - player_pastPos.y > 0)
         {
             transform.position = new Vector3(transform.position.x, player_pastPos.y, transform.position.z);
@@ -126,10 +126,10 @@ public class Platforming : MonoBehaviour
         Vector3 playerDis = Quaternion.Inverse(qua) * (transform.position - nowPos_center);
         deltaSca = qua * new Vector3(playerDis.x * deltaSca.x, playerDis.y * deltaSca.y, playerDis.z * deltaSca.z);
 
-        //ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ÉMove‚ÆScale‚ÌŒvZŒ‹‰ÊiˆÚ“®—Êj‚ğ‰Á‚¦‚ÄAˆÚ“®
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã«Moveã¨Scaleã®è¨ˆç®—çµæœï¼ˆç§»å‹•é‡ï¼‰ã‚’åŠ ãˆã¦ã€ç§»å‹•
         transform.position += deltaMove + deltaSca;
 
-        //Y²ã•ûŒü‚Ö‚Í°‚É‰Ÿ‚³‚ê‚é—Í‚Åã‚ª‚é‚Ì‚ÅA‚±‚±‚Å‚ÍˆÚ“®‚³‚¹‚È‚¢
+        //Yè»¸ä¸Šæ–¹å‘ã¸ã¯åºŠã«æŠ¼ã•ã‚Œã‚‹åŠ›ã§ä¸ŠãŒã‚‹ã®ã§ã€ã“ã“ã§ã¯ç§»å‹•ã•ã›ãªã„
         if (transform.position.y - player_pastPos.y > 0)
         {
             transform.position = new Vector3(transform.position.x, player_pastPos.y, transform.position.z);
@@ -138,13 +138,13 @@ public class Platforming : MonoBehaviour
 
     public void GroundCheck()
     {
-        //ƒvƒŒƒCƒ„[‚Ìó‘Ô‚É‡‚í‚¹‚ÄRay‚Ì’·‚³‚ğİ’è
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®çŠ¶æ…‹ã«åˆã‚ã›ã¦Rayã®é•·ã•ã‚’è¨­å®š
         float rayDistance = origin.y - footPos - radius;
         if (plat != null)
         {
             rayDistance += groundCheckDistance_onPlat;
         }
-        if (m_rigidbody.velocity.y > 0)
+        else if (m_rigidbody.velocity.y > 0)
         {
             rayDistance += groundCheckDistance_up;
         }
@@ -153,26 +153,26 @@ public class Platforming : MonoBehaviour
             rayDistance += groundCheckDistance_down;
         }
 
-        //‘«Œ³‚ÉRay‚ğ”­Ë‚µ‚Ä°‚ğŠm”F
+        //è¶³å…ƒã«Rayã‚’ç™ºå°„ã—ã¦åºŠã‚’ç¢ºèª
         RaycastHit hit;
         if (Physics.SphereCast(transform.position + origin, radius, Vector3.down, out hit, rayDistance, m_layerMask))
         {
             m_isGround = true;
             if ((plat != null && hit.collider.name == plat.name))
             {
-                //Debug.Log("“¯‚¶°: " + hit.collider.name);
+                //Debug.Log("åŒã˜åºŠ: " + hit.collider.name);
                 return;
             }
             else if (hit.collider.transform.CompareTag("Move") || hit.collider.transform.CompareTag("Center"))
             {
-                //Debug.Log("V‚µ‚¢°: " + hit.collider.name);
+                //Debug.Log("æ–°ã—ã„åºŠ: " + hit.collider.name);
                 plat = hit.collider.gameObject;
                 pastRot = plat.transform.rotation;
                 pastPos = plat.transform.position;
                 pastSca = plat.transform.lossyScale;
                 nowSca = plat.transform.lossyScale;
 
-                //e‚Écenter‚ª‚¢‚é‚©’²‚×‚é
+                //è¦ªã«centerãŒã„ã‚‹ã‹èª¿ã¹ã‚‹
                 GameObject p = plat;
                 while (p.CompareTag("Move") && p.transform.parent != null)
                 {
@@ -191,14 +191,14 @@ public class Platforming : MonoBehaviour
             }
             else
             {
-                //Debug.Log("“®‚­°‚¶‚á‚È‚¢: " + hit.collider.name);
+                //Debug.Log("å‹•ãåºŠã˜ã‚ƒãªã„: " + hit.collider.name);
                 plat = null;
                 center = null;
             }
         }
         else
         {
-            //Debug.Log("‹ó’†");
+            //Debug.Log("ç©ºä¸­");
             plat = null;
             center = null;
             m_isGround = false;
