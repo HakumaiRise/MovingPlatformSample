@@ -22,9 +22,6 @@ public class Platforming : MonoBehaviour
     Vector3 nowPos;
     Vector3 nowSca;
 
-    Vector3 pastPos_center;
-    Vector3 nowPos_center;
-
     public LayerMask m_layerMask;
     Rigidbody m_rigidbody;
 
@@ -46,17 +43,15 @@ public class Platforming : MonoBehaviour
 
             if (center != null)
             {   //Centerあり
-                nowRot = plat.transform.rotation;
-                nowPos = plat.transform.position;
-                nowSca = plat.transform.lossyScale;
-                nowPos_center = center.transform.position;
+                nowRot = center.transform.rotation;
+                nowPos = center.transform.position;
+                nowSca = center.transform.lossyScale;
 
-                MoveWith_Center();
+                MoveWith();
 
-                pastRot = plat.transform.rotation;
-                pastPos = plat.transform.position;
-                pastSca = plat.transform.lossyScale;
-                pastPos_center = center.transform.position;
+                pastRot = center.transform.rotation;
+                pastPos = center.transform.position;
+                pastSca = center.transform.lossyScale;
 
             }
             else
@@ -93,35 +88,7 @@ public class Platforming : MonoBehaviour
 
         //Scale
         Vector3 deltaSca = new Vector3((nowSca.x - pastSca.x) / pastSca.x, (nowSca.y - pastSca.y) / pastSca.y, (nowSca.z - pastSca.z) / pastSca.z);
-        Vector3 playerDis = Quaternion.Inverse(nowRot) * (transform.position - plat.transform.position);
-        deltaSca = nowRot * new Vector3(playerDis.x * deltaSca.x, playerDis.y * deltaSca.y, playerDis.z * deltaSca.z);
-
-        //プレイヤーの位置にMoveとScaleの計算結果（移動量）を加えて、移動
-        transform.position += deltaMove + deltaSca;
-
-        //Y軸上方向へは床に押される力で上がるので、ここでは移動させない
-        if (transform.position.y - player_pastPos.y > 0)
-        {
-            transform.position = new Vector3(transform.position.x, player_pastPos.y, transform.position.z);
-        }
-    }
-
-    public void MoveWith_Center()
-    {
-        Vector3 player_pastPos = transform.position;
-
-        //Rotate
-        Quaternion deltaRot = nowRot * Quaternion.Inverse(pastRot);
-        transform.RotateAround(nowPos_center, new Vector3(1, 0, 0), deltaRot.eulerAngles.x);
-        transform.RotateAround(nowPos_center, new Vector3(0, 1, 0), deltaRot.eulerAngles.y);
-        transform.RotateAround(nowPos_center, new Vector3(0, 0, 1), deltaRot.eulerAngles.z);
-
-        //Move
-        Vector3 deltaMove = (nowPos_center - pastPos_center);
-
-        //Scale
-        Vector3 deltaSca = new Vector3((nowSca.x - pastSca.x) / pastSca.x, (nowSca.y - pastSca.y) / pastSca.y, (nowSca.z - pastSca.z) / pastSca.z);
-        Vector3 playerDis = Quaternion.Inverse(nowRot) * (transform.position - nowPos_center);
+        Vector3 playerDis = Quaternion.Inverse(nowRot) * (transform.position - nowPos);
         deltaSca = nowRot * new Vector3(playerDis.x * deltaSca.x, playerDis.y * deltaSca.y, playerDis.z * deltaSca.z);
 
         //プレイヤーの位置にMoveとScaleの計算結果（移動量）を加えて、移動
@@ -178,7 +145,10 @@ public class Platforming : MonoBehaviour
                     {
                         center = p.transform.parent.gameObject;
                         //Debug.Log("center: " + center.name);
-                        pastPos_center = center.transform.position;
+                        pastRot = center.transform.rotation;
+                        pastPos = center.transform.position;
+                        pastSca = center.transform.lossyScale;
+                        nowSca = center.transform.lossyScale;
                         return;
                     }
                     else
