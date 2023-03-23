@@ -83,19 +83,18 @@ public class Platforming : MonoBehaviour
         Vector3 player_pastPos = transform.position;
 
         //Rotate
-        Quaternion rot = nowRot * Quaternion.Inverse(pastRot);
-        transform.RotateAround(nowPos, new Vector3(1, 0, 0), rot.eulerAngles.x);
-        transform.RotateAround(nowPos, new Vector3(0, 1, 0), rot.eulerAngles.y);
-        transform.RotateAround(nowPos, new Vector3(0, 0, 1), rot.eulerAngles.z);
+        Quaternion deltaRot = nowRot * Quaternion.Inverse(pastRot);
+        transform.RotateAround(nowPos, new Vector3(1, 0, 0), deltaRot.eulerAngles.x);
+        transform.RotateAround(nowPos, new Vector3(0, 1, 0), deltaRot.eulerAngles.y);
+        transform.RotateAround(nowPos, new Vector3(0, 0, 1), deltaRot.eulerAngles.z);
 
         //Move
         Vector3 deltaMove = (nowPos - pastPos);
 
         //Scale
-        Quaternion qua = Quaternion.Euler((nowRot).eulerAngles);
         Vector3 deltaSca = new Vector3((nowSca.x - pastSca.x) / pastSca.x, (nowSca.y - pastSca.y) / pastSca.y, (nowSca.z - pastSca.z) / pastSca.z);
-        Vector3 playerDis = Quaternion.Inverse(qua) * (transform.position - plat.transform.position);
-        deltaSca = qua * new Vector3(playerDis.x * deltaSca.x, playerDis.y * deltaSca.y, playerDis.z * deltaSca.z);
+        Vector3 playerDis = Quaternion.Inverse(nowRot) * (transform.position - plat.transform.position);
+        deltaSca = nowRot * new Vector3(playerDis.x * deltaSca.x, playerDis.y * deltaSca.y, playerDis.z * deltaSca.z);
 
         //プレイヤーの位置にMoveとScaleの計算結果（移動量）を加えて、移動
         transform.position += deltaMove + deltaSca;
@@ -112,19 +111,18 @@ public class Platforming : MonoBehaviour
         Vector3 player_pastPos = transform.position;
 
         //Rotate
-        Quaternion rot = nowRot * Quaternion.Inverse(pastRot);
-        transform.RotateAround(nowPos_center, new Vector3(1, 0, 0), rot.eulerAngles.x);
-        transform.RotateAround(nowPos_center, new Vector3(0, 1, 0), rot.eulerAngles.y);
-        transform.RotateAround(nowPos_center, new Vector3(0, 0, 1), rot.eulerAngles.z);
+        Quaternion deltaRot = nowRot * Quaternion.Inverse(pastRot);
+        transform.RotateAround(nowPos_center, new Vector3(1, 0, 0), deltaRot.eulerAngles.x);
+        transform.RotateAround(nowPos_center, new Vector3(0, 1, 0), deltaRot.eulerAngles.y);
+        transform.RotateAround(nowPos_center, new Vector3(0, 0, 1), deltaRot.eulerAngles.z);
 
         //Move
         Vector3 deltaMove = (nowPos_center - pastPos_center);
 
         //Scale
-        Quaternion qua = Quaternion.Euler((nowRot).eulerAngles);
         Vector3 deltaSca = new Vector3((nowSca.x - pastSca.x) / pastSca.x, (nowSca.y - pastSca.y) / pastSca.y, (nowSca.z - pastSca.z) / pastSca.z);
-        Vector3 playerDis = Quaternion.Inverse(qua) * (transform.position - nowPos_center);
-        deltaSca = qua * new Vector3(playerDis.x * deltaSca.x, playerDis.y * deltaSca.y, playerDis.z * deltaSca.z);
+        Vector3 playerDis = Quaternion.Inverse(nowRot) * (transform.position - nowPos_center);
+        deltaSca = nowRot * new Vector3(playerDis.x * deltaSca.x, playerDis.y * deltaSca.y, playerDis.z * deltaSca.z);
 
         //プレイヤーの位置にMoveとScaleの計算結果（移動量）を加えて、移動
         transform.position += deltaMove + deltaSca;
