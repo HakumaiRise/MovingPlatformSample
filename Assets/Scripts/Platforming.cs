@@ -30,7 +30,7 @@ public class Platforming : MonoBehaviour
         m_rigidbody = transform.GetComponent<Rigidbody>();
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
         if (plat != null)
         {
